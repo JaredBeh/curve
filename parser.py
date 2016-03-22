@@ -22,18 +22,18 @@ def parse_file( fname, points, transform, screen, color ):
             func = lines[n]
             n += 1
             argstring = lines[n].split(' ')
-            args = map(double,argstring)
+            args = map(float,argstring)
             argsint = map(int,args)
             if(func == "scale"):
                 matrix_mult(make_scale(args[0],args[1],args[2]),transform)
             elif(func == "translate"):
                 matrix_mult(make_translate(args[0],args[1],args[2]),transform)
             elif(func == "xrotate"):
-                matrix_mult(make_xrot(args[0]),transform)
+                matrix_mult(make_rotX(args[0]),transform)
             elif(func == "yrotate"):
-                matrix_mult(make_yrot(args[0]),transform)
+                matrix_mult(make_rotY(args[0]),transform)
             elif(func == "zrotate"):
-                matrix_mult(make_zrot(args[0]),transform)
+                matrix_mult(make_rotZ(args[0]),transform)
             elif(func == "line"):
                 add_edge(points,argsint[0],argsint[1],argsint[2],argsint[3],argsint[4],argsint[5])
             elif(func == "circle"):

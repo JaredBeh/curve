@@ -5,27 +5,36 @@ import math
 def add_circle( points, cx, cy, cz, r, step ):
     x0 = cx + r
     y0 = cy
-    for t in range(0,1.0001,step):
-        x = x0 * math.cos(2 * math.pi * t)
-        y = y0 * math.sin(2 * math.pi * t)
+    t = 0.0
+    while(t < 1.0001):
+        x = cx + r * math.cos(2 * math.pi * t)
+        y = cy + r * math.sin(2 * math.pi * t)
         add_edge(points,x0,y0,cz,x,y,cz)
         x0 = x
         y0 = y
+        t += step
 
 def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
-    x_co = generate_curve_coefs(x0,x1,x2,x3,curve_type)
-    y_co = generate_curve_coefs(y0,y1,y2,y3,curve_type)
+    if(curve_type == BEZIER):
+        x_co = generate_curve_coefs(x0,x1,x2,x3,curve_type)
+        y_co = generate_curve_coefs(y0,y1,y2,y3,curve_type)
+    else:
+        x_co = generate_curve_coefs(x0,x2,x1,x3,curve_type)
+        y_co = generate_curve_coefs(y0,y2,y1,y3,curve_type)
     x = x0
     y = y0
-    for t in range(0,1.0001,step):
-        x = t * (t * (x_co[0][0] * t + x_co[1][0])
-                 + x_co[2][0] ) + (x_co[3][0])
-        y = t * (t * (y_co[0][0] * t + y_co[1][0])
-                 + y_co[2][0] ) + (y_co[3][0])
+    t = 0.0
+    print("x_co\n")
+    print_matrix(x_co)
+    while (t < 1.0001):
+        x = t * (t * (x_co[0][0] * t + x_co[0][1])
+                 + x_co[0][2] ) + (x_co[0][3])
+        y = t * (t * (y_co[0][0] * t + y_co[0][1])
+                 + y_co[0][2] ) + (y_co[0][3])
         add_edge(points,x0,y0,0,x,y,0)
         x0 = x
         y0 = y
-    
+        t += step
 
 def draw_lines( matrix, screen, color ):
     if len( matrix ) < 2:
