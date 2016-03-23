@@ -14,11 +14,12 @@ def make_hermite():
              [1,0,0,0] ]
 
 def generate_curve_coefs( p1, p2, p3, p4, t ):
-    ans = [ [p1,p2,p3,p4] ]
     if(t == HERMITE):
+        
         matrix_mult(make_hermite(),ans)
         print_matrix(ans)
     elif(t ==BEZIER):
+            ans = [ [p1,p2,p3,p4] ]
         matrix_mult(make_bezier(),ans)
     return ans
 def make_translate( x, y, z ):
